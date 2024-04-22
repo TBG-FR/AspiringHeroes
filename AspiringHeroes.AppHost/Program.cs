@@ -1,12 +1,12 @@
 var builder = DistributedApplication.CreateBuilder(args);
 
-var cache = builder.AddRedisContainer("cache");
-var heroApi = builder.AddProject<Projects.AspiringHeroes_Api>("heroesRestAPI");
-var heroGrpc = builder.AddProject<Projects.AspiringHeroes_Grpc>("heroesGrpcService");
+var cache = builder.AddRedis("cache");
+var heroREST = builder.AddProject<Projects.AspiringHeroes_Api>("heroes-REST-api");
+var heroGRPC = builder.AddProject<Projects.AspiringHeroes_Grpc>("heroes-GRPC-service");
 
 builder.AddProject<Projects.AspiringHeroes_Web>("webUI")
     .WithReference(cache)
-    .WithReference(heroApi)
-    .WithReference(heroGrpc);
+    .WithReference(heroREST)
+    .WithReference(heroGRPC);
 
 builder.Build().Run();
